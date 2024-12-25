@@ -1,0 +1,18 @@
+package build
+
+import mill._
+import scalalib._
+
+trait MyScalaModule extends ScalaModule {
+  override def scalaVersion = "3.6.2"
+}
+
+object myPrelude extends MyScalaModule
+
+object app extends MyScalaModule {
+  override def moduleDeps = Seq(myPrelude)
+
+  override def scalacOptions: T[Seq[String]] = T(Seq(
+    "-Yimports:java.lang,scala,scala.Predef,my_extensions"
+  ))
+}
